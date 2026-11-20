@@ -70,7 +70,17 @@ Tout le monde voit tous les comptes, et **alice**, une simple cliente, vient de 
 2. Déclarez le bean `PasswordEncoder` (BCrypt) : c'est lui qui comparera le mot de passe reçu au hash en base. **C'EST OK**
 3. Écrivez un `UserDetailsService` qui charge l'`Utilisateur` en base par son login. **C'EST OK**
 4. Écrivez la `SecurityFilterChain` : Basic Auth, sans session (`STATELESS`), toutes les requêtes `/api/**` authentifiées. **C'EST OK**
-5. Vérifiez avec `curl -u alice:alice123 localhost:8080/api/me`, puis décodez l'en-tête `Authorization: Basic …` (`echo … | base64 -d`). Est-ce du chiffrement ?
+5. Vérifiez avec `curl -u alice:alice123 localhost:8080/api/me`, puis décodez l'en-tête `Authorization: Basic …` (`echo … | base64 -d`). Est-ce du chiffrement ? **C'EST OK**
+   ```bash
+   curl -u alice:alice123 localhost:8080/api/me
+   # {"login":"alice","roles":["CLIENT"]}
+   curl -v -u alice:alice123 localhost:8080/api/me 2>&1 | grep Authorization
+   # > Authorization: Basic YWxpY2U6YWxpY2UxMjM=
+   echo YWxpY2U6YWxpY2UxMjM= | base64 -d
+   # alice:alice123
+   
+   Réponse: non, ce n'est pas du chiffrement, c'est un simple encodage Base64.
+   ```
 6. Remplacez `UtilisateurCourantFake` par un `UtilisateurCourant` qui lit le `SecurityContext`.
 7. Le front reçoit une erreur CORS : le navigateur envoie un `OPTIONS` **sans** identifiants. Autorisez-le dans la chaîne (`.cors(...)`).
 
