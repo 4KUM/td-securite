@@ -95,8 +95,8 @@ Tout le monde voit tous les comptes, et **alice**, une simple cliente, vient de 
 
 ## Partie 2 : Angular
 
-1. Dans `AuthService`, implémentez `connecter` : appelez `GET /api/me` avec l'en-tête `Authorization: Basic …` (`btoa('login:motDePasse')`). Gardez les identifiants **en mémoire** et renseignez `utilisateur`.
-2. Écrivez un **intercepteur** fonctionnel (`HttpInterceptorFn`) qui ajoute l'en-tête aux requêtes vers l'API. Sur un `401`, il déconnecte et renvoie vers `/login`.
+1. Dans `AuthService`, implémentez `connecter` : appelez `GET /api/me` avec l'en-tête `Authorization: Basic …` (`btoa('login:motDePasse')`). Gardez les identifiants **en mémoire** et renseignez `utilisateur`. **C'est ok**"
+2. Écrivez un **intercepteur** fonctionnel (`HttpInterceptorFn`) qui ajoute l'en-tête aux requêtes vers l'API. Sur un `401`, il déconnecte et renvoie vers `/login`. **Cest ok**
 3. Écrivez une **guard** (`CanActivateFn`) : sans utilisateur connecté, redirection vers `/login?retour=<url demandée>`. Appliquez-la aux routes `comptes`.
 4. La page `/login` est fournie. Testez-la avec un mauvais mot de passe, puis rechargez la page connecté : que se passe-t-il, et pourquoi ?
 
