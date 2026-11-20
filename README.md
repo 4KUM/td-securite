@@ -86,6 +86,13 @@ Tout le monde voit tous les comptes, et **alice**, une simple cliente, vient de 
 
 *Piège :* le CSRF est actif par défaut. Pour une API stateless en Basic Auth, que faut-il en faire, et pourquoi ?
 
+**Réponse: on le désactive** (`.csrf(csrf -> csrf.disable())`).
+
+- Une attaque CSRF, c'est envoyer une requête par le navigateur avec nos identifiants perso par un hacker, sans le détecter.
+- Ça marche avec les cookies, car le navigateur les envoie tout seul.
+- Ici on n'utilise pas de cookie: c'est angular qui ajoute l'en-tête `Authorization` à la main. Le hacker ne peut pas le faire.
+- Donc pas de risque CSRF, et si on le laissait actif, tous nos `POST` seraient bloqués (**403**).
+
 ## Partie 2 : Angular
 
 1. Dans `AuthService`, implémentez `connecter` : appelez `GET /api/me` avec l'en-tête `Authorization: Basic …` (`btoa('login:motDePasse')`). Gardez les identifiants **en mémoire** et renseignez `utilisateur`.
