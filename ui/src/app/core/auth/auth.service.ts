@@ -14,28 +14,30 @@ export class AuthService {
 
   readonly utilisateur = signal<Utilisateur | null>(null);
 
-  private entete: string | null = null;
-  enteteAuthorization(): string | null {
-    return this.entete;
-  }
+  private login?: string;
+  private password?: string;
 
-  /**
-   * Vérifie les identifiants auprès du serveur (GET /api/me avec l'en-tête
-   * Basic) et mémorise l'utilisateur. Doit échouer (throw) si le serveur répond 401.
-   */
   async connecter(login: string, motDePasse: string): Promise<void> {
-    const entete = 'Basic ' + btoa(`${login}:${motDePasse}`);
     const utilisateur = await firstValueFrom(
       this.http.get<Utilisateur>(`${API}/me`, {
-        headers: new HttpHeaders({ Authorization: entete }),
+        headers: new HttpHeaders({ Authorization: 'Basic ' + btoa(login + ':' + motDePasse) }),
       }),
     );
-    this.entete = entete;
+    this.login = login;
+    this.password = motDePasse;
     this.utilisateur.set(utilisateur);
   }
 
+  basic(): string | undefined {
+    if(this.login && this.password) {
+      return this.login + ":" + this.password;
+    }
+    return undefined;
+  }
+
   deconnecter(): void {
-    this.entete = null;
+    this.login = undefined;
+    this.password = undefined;
     this.utilisateur.set(null);
   }
 }
