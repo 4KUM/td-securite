@@ -11,9 +11,7 @@ spring:
     console:
       enabled: true
 
-# Qui est « l'utilisateur courant » tant qu'il n'y a pas de sécurité (UtilisateurCourantFake).
 app:
-  utilisateur-fake: alice
   cors:
     origines: http://localhost:4200
 
