@@ -68,8 +68,8 @@ Tout le monde voit tous les comptes, et **alice**, une simple cliente, vient de 
 
 1. Ajoutez `org.springframework.boot:spring-boot-starter-security`. Relancez : que renvoie maintenant l'API ? **C'EST OK**
 2. Déclarez le bean `PasswordEncoder` (BCrypt) : c'est lui qui comparera le mot de passe reçu au hash en base. **C'EST OK**
-3. Écrivez un `UserDetailsService` qui charge l'`Utilisateur` en base par son login.
-4. Écrivez la `SecurityFilterChain` : Basic Auth, sans session (`STATELESS`), toutes les requêtes `/api/**` authentifiées.
+3. Écrivez un `UserDetailsService` qui charge l'`Utilisateur` en base par son login. **C'EST OK**
+4. Écrivez la `SecurityFilterChain` : Basic Auth, sans session (`STATELESS`), toutes les requêtes `/api/**` authentifiées. **C'EST OK**
 5. Vérifiez avec `curl -u alice:alice123 localhost:8080/api/me`, puis décodez l'en-tête `Authorization: Basic …` (`echo … | base64 -d`). Est-ce du chiffrement ?
 6. Remplacez `UtilisateurCourantFake` par un `UtilisateurCourant` qui lit le `SecurityContext`.
 7. Le front reçoit une erreur CORS : le navigateur envoie un `OPTIONS` **sans** identifiants. Autorisez-le dans la chaîne (`.cors(...)`).
