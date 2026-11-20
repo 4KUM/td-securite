@@ -26,7 +26,7 @@ public class CompteService {
     }
 
     public List<CompteDto> lister() {
-        return comptes.findAll().stream().map(CompteDto::de).toList();
+        return comptes.findAll().stream().filter(this::peutVoir).map(CompteDto::de).toList();
     }
 
     public CompteDto trouver(Long id) {

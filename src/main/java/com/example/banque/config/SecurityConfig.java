@@ -24,7 +24,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/virements/*/valider").hasRole("CONSEILLER")
-                        //.requestMatchers(HttpMethod.GET, "/api/comptes/*").hasAuthority("CONSEILLER")
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().authenticated())
