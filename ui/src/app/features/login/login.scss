@@ -1,0 +1,29 @@
+.login {
+  display: grid;
+  place-items: start center;
+  padding-top: 4rem;
+}
+
+.carte {
+  width: 100%;
+  max-width: 24rem;
+  padding: 1rem;
+}
+
+mat-card-header {
+  padding-bottom: 1.5rem;
+}
+
+.formulaire {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  button {
+    height: 3rem;
+  }
+}
+
+.erreur {
+  margin: 0 0 1rem;
+}

@@ -1,0 +1,18 @@
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { ApplicationConfig, LOCALE_ID, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { routes } from './app.routes';
+
+registerLocaleData(localeFr);
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
+    provideRouter(routes, withComponentInputBinding()),
+    // TODO partie 2 : ajouter l'intercepteur d'authentification, avec withInterceptors([...]).
+    provideHttpClient(),
+  ],
+};

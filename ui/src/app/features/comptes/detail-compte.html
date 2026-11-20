@@ -1,0 +1,76 @@
+<main>
+  <a mat-button routerLink="/comptes">← Comptes</a>
+
+  @if (erreur(); as message) {
+    <p class="erreur" role="alert">{{ message }}</p>
+  }
+
+  @if (compte(); as c) {
+    <h1>{{ c.numero }}</h1>
+    <p class="titulaire">{{ c.titulaire }} · {{ c.agence }}</p>
+
+    <mat-card appearance="outlined" class="bloc">
+      <mat-card-header><h2 mat-card-title>Nouveau virement</h2></mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="formulaire" (ngSubmit)="virer()" class="formulaire">
+          <mat-form-field appearance="outline" class="iban">
+            <mat-label>IBAN du destinataire</mat-label>
+            <input matInput type="text" formControlName="ibanDestinataire" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="montant">
+            <mat-label>Montant (€)</mat-label>
+            <input matInput type="number" step="0.01" formControlName="montant" />
+          </mat-form-field>
+          <button mat-flat-button type="submit" [disabled]="formulaire.invalid">Virer</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card appearance="outlined" class="bloc">
+      <mat-card-header><h2 mat-card-title>Virements</h2></mat-card-header>
+      <mat-card-content>
+        @if (virements().length === 0) {
+          <p>Aucun virement.</p>
+        } @else {
+          <table mat-table [dataSource]="virements()">
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef>Date</th>
+              <td mat-cell *matCellDef="let v">{{ v.creeLe | date: 'dd/MM/yyyy HH:mm' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="destinataire">
+              <th mat-header-cell *matHeaderCellDef>Destinataire</th>
+              <td mat-cell *matCellDef="let v">{{ v.ibanDestinataire }}</td>
+            </ng-container>
+            <ng-container matColumnDef="montant">
+              <th mat-header-cell *matHeaderCellDef>Montant</th>
+              <td mat-cell *matCellDef="let v">{{ v.montant / 100 | currency: 'EUR' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="statut">
+              <th mat-header-cell *matHeaderCellDef>Statut</th>
+              <td mat-cell *matCellDef="let v">
+                @if (v.statut === 'VALIDE') {
+                  <span class="statut valide">Validé par {{ v.validePar }}</span>
+                } @else {
+                  <span class="statut attente">En attente</span>
+                }
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef><span class="cache">Actions</span></th>
+              <td mat-cell *matCellDef="let v">
+                <!-- TODO partie 3 : n'afficher ce bouton qu'à un conseiller (le serveur doit aussi refuser). -->
+                @if (v.statut === 'EN_ATTENTE') {
+                  <button mat-stroked-button type="button" (click)="valider(v)">Valider</button>
+                }
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="colonnes"></tr>
+            <tr mat-row *matRowDef="let row; columns: colonnes"></tr>
+          </table>
+        }
+      </mat-card-content>
+    </mat-card>
+  } @else if (!erreur()) {
+    <mat-progress-bar mode="indeterminate" aria-label="Chargement du compte" />
+  }
+</main>

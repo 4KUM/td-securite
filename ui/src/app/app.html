@@ -1,0 +1,11 @@
+<mat-toolbar color="primary">
+  <a routerLink="/comptes" class="marque">Banque</a>
+  <span class="espace"></span>
+  @if (auth.utilisateur(); as utilisateur) {
+    <span class="session">{{ utilisateur.login }} ({{ utilisateur.roles.join(', ') }})</span>
+    <button mat-button type="button" (click)="deconnecter()">Se déconnecter</button>
+  } @else {
+    <a mat-button routerLink="/login">Se connecter</a>
+  }
+</mat-toolbar>
+<router-outlet />

@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: banque
+  datasource:
+    url: jdbc:h2:mem:banque
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+  h2:
+    console:
+      enabled: true
+
+# Qui est « l'utilisateur courant » tant qu'il n'y a pas de sécurité (UtilisateurCourantFake).
+app:
+  utilisateur-fake: alice
+  cors:
+    origines: http://localhost:4200
+
+# Les données de démo, créées au démarrage si elles n'existent pas (DonneesDemo).
+# Les mots de passe sont en clair ICI, et hachés (BCrypt) avant d'aller en base.
+# Dans une vraie appli, ils viendraient de l'environnement, pas d'un fichier versionné.
+demo:
+  agences:
+    - nom: Lyon Part-Dieu
+    - nom: Paris Opéra
+  conseillers:
+    - login: bruno
+      mot-de-passe: bruno123
+      nom: Bruno Leroy
+      agence: Lyon Part-Dieu
+  clients:
+    - login: alice
+      mot-de-passe: alice123
+      nom: Alice Martin
+      adresse: { rue: 12 rue de la République, ville: Lyon, code-postal: "69002" }
+      comptes:
+        - numero: FR76-0001
+          agence: Lyon Part-Dieu
+          virements:
+            - { iban: FR76-9001, montant: 80000, statut: VALIDE, valide-par: bruno }
+            - { iban: FR76-9002, montant: 4550, statut: EN_ATTENTE }
+    - login: charles
+      mot-de-passe: charles123
+      nom: Charles Durand
+      adresse: { rue: 3 place Bellecour, ville: Lyon, code-postal: "69002" }
+      comptes:
+        - numero: FR76-0002
+          agence: Lyon Part-Dieu
+          virements:
+            - { iban: FR76-9003, montant: 120000, statut: EN_ATTENTE }
+    - login: diane
+      mot-de-passe: diane123
+      nom: Diane Petit
+      adresse: { rue: 8 rue Scribe, ville: Paris, code-postal: "75009" }
+      comptes:
+        - numero: FR76-0003
+          agence: Paris Opéra
+          virements: []

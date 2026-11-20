@@ -1,0 +1,67 @@
+@use '@angular/material' as mat;
+// Police auto-hébergée, pas de CDN.
+@use '@fontsource-variable/inter/index.css' as inter-font;
+
+html {
+  color-scheme: light;
+
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: (
+        plain-family: 'Inter Variable',
+        brand-family: 'Inter Variable',
+      ),
+      density: 0,
+    )
+  );
+}
+
+body {
+  margin: 0;
+  // Un fond légèrement teinté de la couleur primaire, pour que les cartes ressortent.
+  background: color-mix(in srgb, var(--mat-sys-primary) 6%, var(--mat-sys-surface));
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-large);
+}
+
+main {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+h1 {
+  font: var(--mat-sys-headline-medium);
+  color: var(--mat-sys-primary);
+  margin: 0 0 1rem;
+}
+
+h2 {
+  font: var(--mat-sys-title-large);
+  margin: 0 0 1rem;
+}
+
+.erreur {
+  color: var(--mat-sys-error);
+}
+
+// Les cartes : un liseré primaire en haut, et un en-tête de tableau teinté.
+mat-card {
+  --mat-card-outlined-container-color: var(--mat-sys-surface);
+  border-top: 4px solid var(--mat-sys-primary) !important;
+}
+
+table[mat-table] {
+  --mat-table-header-container-color: color-mix(in srgb, var(--mat-sys-primary) 10%, var(--mat-sys-surface));
+  --mat-table-header-headline-color: var(--mat-sys-primary);
+  --mat-table-row-item-outline-color: color-mix(in srgb, var(--mat-sys-primary) 20%, transparent);
+  background: transparent;
+}
+
+[mat-card-title] {
+  color: var(--mat-sys-primary);
+}

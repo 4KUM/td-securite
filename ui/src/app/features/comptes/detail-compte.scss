@@ -1,0 +1,58 @@
+.titulaire {
+  margin: -0.5rem 0 1.5rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.bloc {
+  margin-bottom: 1.5rem;
+}
+
+mat-card-header {
+  padding-bottom: 1rem;
+}
+
+.formulaire {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-start;
+  padding-top: 0.5rem;
+
+  button {
+    height: 3.5rem;
+  }
+}
+
+.iban {
+  flex: 2 1 14rem;
+}
+
+.montant {
+  flex: 1 1 8rem;
+}
+
+.statut {
+  padding: 0.2rem 0.6rem;
+  border-radius: 1rem;
+  font: var(--mat-sys-label-large);
+
+  // Vert et ambre : le mot (« Validé », « En attente ») porte le sens, la couleur le souligne.
+  &.valide {
+    background: #d4f1dc;
+    color: #0b5b2a;
+  }
+
+  &.attente {
+    background: #ffefc2;
+    color: #6b4700;
+  }
+}
+
+// Un en-tête de colonne sans texte visible, mais lu par les lecteurs d'écran.
+.cache {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}

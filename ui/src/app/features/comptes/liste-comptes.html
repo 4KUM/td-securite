@@ -1,0 +1,32 @@
+<main>
+  <h1>Comptes</h1>
+
+  @if (erreur(); as message) {
+    <p class="erreur" role="alert">{{ message }}</p>
+  } @else if (comptes(); as liste) {
+    <mat-card appearance="outlined">
+      @if (liste.length === 0) {
+        <mat-card-content><p>Aucun compte.</p></mat-card-content>
+      } @else {
+        <table mat-table [dataSource]="liste">
+          <ng-container matColumnDef="numero">
+            <th mat-header-cell *matHeaderCellDef>Numéro</th>
+            <td mat-cell *matCellDef="let compte"><a [routerLink]="['/comptes', compte.id]">{{ compte.numero }}</a></td>
+          </ng-container>
+          <ng-container matColumnDef="titulaire">
+            <th mat-header-cell *matHeaderCellDef>Titulaire</th>
+            <td mat-cell *matCellDef="let compte">{{ compte.titulaire }}</td>
+          </ng-container>
+          <ng-container matColumnDef="agence">
+            <th mat-header-cell *matHeaderCellDef>Agence</th>
+            <td mat-cell *matCellDef="let compte">{{ compte.agence }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="colonnes"></tr>
+          <tr mat-row *matRowDef="let row; columns: colonnes"></tr>
+        </table>
+      }
+    </mat-card>
+  } @else {
+    <mat-progress-bar mode="indeterminate" aria-label="Chargement des comptes" />
+  }
+</main>
