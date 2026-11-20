@@ -10,6 +10,7 @@ import com.example.banque.virement.Virement;
 import com.example.banque.virement.VirementRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,12 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Crée au démarrage les utilisateurs, comptes et virements décrits dans la conf.
  * Rejouable : un utilisateur qui existe déjà est laissé tel quel. Fourni : à ne pas toucher.
+ * Il hache avec son propre BCrypt : le bean PasswordEncoder de l'appli, c'est au TD de le déclarer.
  */
 @Component
 public class DonneesDemo implements ApplicationRunner {
 
     private final DemoProperties demo;
-    private final PasswordEncoder encoder;
+    private final PasswordEncoder encoder = new BCryptPasswordEncoder();
     private final UtilisateurRepository utilisateurs;
     private final AgenceRepository agences;
     private final ConseillerRepository conseillers;
@@ -30,11 +32,10 @@ public class DonneesDemo implements ApplicationRunner {
     private final CompteRepository comptes;
     private final VirementRepository virements;
 
-    public DonneesDemo(DemoProperties demo, PasswordEncoder encoder, UtilisateurRepository utilisateurs,
+    public DonneesDemo(DemoProperties demo, UtilisateurRepository utilisateurs,
                        AgenceRepository agences, ConseillerRepository conseillers, ClientRepository clients,
                        CompteRepository comptes, VirementRepository virements) {
         this.demo = demo;
-        this.encoder = encoder;
         this.utilisateurs = utilisateurs;
         this.agences = agences;
         this.conseillers = conseillers;

@@ -26,7 +26,7 @@ Base H2 en mémoire, console sur http://localhost:8080/h2-console (`jdbc:h2:mem:
 | `diane` | `diane123` | `CLIENT` | `FR76-0003` | Paris Opéra |
 | `bruno` | `bruno123` | `CONSEILLER` | ceux de son agence | Lyon Part-Dieu |
 
-Les mots de passe sont hachés en BCrypt avant d'aller en base. Ne touchez ni à `DonneesDemo` ni à `ChiffrementConfig`.
+Les mots de passe sont hachés en BCrypt avant d'aller en base. Ne touchez pas à `DonneesDemo`.
 
 ## API
 
@@ -47,7 +47,7 @@ utilisateur/   Utilisateur (login, hash, rôle), Client, Conseiller
   out/           UtilisateurCourant (qui fait la requête ?) et son faux
 compte/        Compte, Agence, CompteService
 virement/      Virement, VirementService
-config/        CORS, BCrypt, données de démo
+config/        CORS, données de démo
 ui/            le front Angular
 ```
 
@@ -67,11 +67,12 @@ Tout le monde voit tous les comptes, et **alice**, une simple cliente, vient de 
 ## Partie 1 : Basic Auth sur Spring
 
 1. Ajoutez `org.springframework.boot:spring-boot-starter-security`. Relancez : que renvoie maintenant l'API ?
-2. Écrivez un `UserDetailsService` qui charge l'`Utilisateur` en base par son login.
-3. Écrivez la `SecurityFilterChain` : Basic Auth, sans session (`STATELESS`), toutes les requêtes `/api/**` authentifiées.
-4. Vérifiez avec `curl -u alice:alice123 localhost:8080/api/me`, puis décodez l'en-tête `Authorization: Basic …` (`echo … | base64 -d`). Est-ce du chiffrement ?
-5. Remplacez `UtilisateurCourantFake` par un `UtilisateurCourant` qui lit le `SecurityContext`.
-6. Le front reçoit une erreur CORS : le navigateur envoie un `OPTIONS` **sans** identifiants. Autorisez-le dans la chaîne (`.cors(...)`).
+2. Déclarez le bean `PasswordEncoder` (BCrypt) : c'est lui qui comparera le mot de passe reçu au hash en base.
+3. Écrivez un `UserDetailsService` qui charge l'`Utilisateur` en base par son login.
+4. Écrivez la `SecurityFilterChain` : Basic Auth, sans session (`STATELESS`), toutes les requêtes `/api/**` authentifiées.
+5. Vérifiez avec `curl -u alice:alice123 localhost:8080/api/me`, puis décodez l'en-tête `Authorization: Basic …` (`echo … | base64 -d`). Est-ce du chiffrement ?
+6. Remplacez `UtilisateurCourantFake` par un `UtilisateurCourant` qui lit le `SecurityContext`.
+7. Le front reçoit une erreur CORS : le navigateur envoie un `OPTIONS` **sans** identifiants. Autorisez-le dans la chaîne (`.cors(...)`).
 
 *Piège :* le CSRF est actif par défaut. Pour une API stateless en Basic Auth, que faut-il en faire, et pourquoi ?
 
